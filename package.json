@@ -1,0 +1,26 @@
+{
+  "name": "frampton-app",
+  "version": "0.0.1",
+  "description": "A module for wiring apps with frampton.js",
+  "scripts": {
+    "test": "frampton test",
+    "build": "frampton build",
+    "docs": "rm -rfv docs/* && jsdoc dist/frampton-app.js -d docs --readme README.md  --private"
+  },
+  "author": "Kevin Greene <hightimesteddy@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:framptonjs/frampton-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/framptonjs/frampton-app/issues"
+  },
+  "homepage": "https://github.com/framptonjs/frampton-app",
+  "devDependencies": {
+    "broccoli": "^0.16.2",
+    "broccoli-cli": "^1.0.0",
+    "frampton-build": "*",
+    "qunitjs": "^1.16.0"
+  }
+}
