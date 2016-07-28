@@ -5,8 +5,9 @@ import execute from 'frampton-data/task/execute';
 import create from 'frampton-signal/create';
 import { mergeMany } from 'frampton-signal/create';
 import scene from 'frampton-app/scene';
+import withValidConfig from 'frampton-app/utils/with_valid_config';
 
-export default function app(config) {
+export default withValidConfig(function app(config) {
 
   function update(acc, next) {
     const model = acc[0];
@@ -32,4 +33,4 @@ export default function app(config) {
   }
 
   return state;
-}
+});

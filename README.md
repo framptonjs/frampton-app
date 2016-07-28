@@ -1,4 +1,4 @@
-# Frampton-App v0.0.1
+# Frampton-App v0.0.2
 
 A module for wiring an application with frampton.js
 
