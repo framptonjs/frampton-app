@@ -34,10 +34,8 @@ define('frampton-app', ['exports', 'frampton/namespace', 'frampton-app/app', 'fr
   _Frampton['default'].App.app = _app['default'];
   _Frampton['default'].App.scene = _scene['default'];
 });
-define('frampton-app/app', ['exports', 'module', 'frampton-list/prepend', 'frampton-list/first', 'frampton-list/second', 'frampton-data/task/execute', 'frampton-signal/create', 'frampton-app/scene'], function (exports, module, _framptonListPrepend, _framptonListFirst, _framptonListSecond, _framptonDataTaskExecute, _framptonSignalCreate, _framptonAppScene) {
+define('frampton-app/app', ['exports', 'module', 'frampton-list/prepend', 'frampton-list/first', 'frampton-list/second', 'frampton-data/task/execute', 'frampton-signal/create', 'frampton-app/scene', 'frampton-app/utils/with_valid_config'], function (exports, module, _framptonListPrepend, _framptonListFirst, _framptonListSecond, _framptonDataTaskExecute, _framptonSignalCreate, _framptonAppScene, _framptonAppUtilsWith_valid_config) {
   'use strict';
-
-  module.exports = app;
 
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -53,7 +51,9 @@ define('frampton-app/app', ['exports', 'module', 'frampton-list/prepend', 'framp
 
   var _scene = _interopRequireDefault(_framptonAppScene);
 
-  function app(config) {
+  var _withValidConfig = _interopRequireDefault(_framptonAppUtilsWith_valid_config);
+
+  module.exports = _withValidConfig['default'](function app(config) {
 
     function update(acc, next) {
       var model = acc[0];
@@ -81,7 +81,7 @@ define('frampton-app/app', ['exports', 'module', 'frampton-list/prepend', 'framp
     }
 
     return state;
-  }
+  });
 });
 define('frampton-app/scene', ['exports', 'module', 'frampton-app/utils/request_frame', 'frampton-dom/update'], function (exports, module, _framptonAppUtilsRequest_frame, _framptonDomUpdate) {
   'use strict';
@@ -141,6 +141,27 @@ define('frampton-app/scene', ['exports', 'module', 'frampton-app/utils/request_f
     };
   }
 });
+define('frampton-app/utils/is_valid_config', ['exports', 'module', 'frampton-utils/is_function'], function (exports, module, _framptonUtilsIs_function) {
+  'use strict';
+
+  module.exports = is_valid_config;
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+  var _isFunction = _interopRequireDefault(_framptonUtilsIs_function);
+
+  function is_valid_config(config) {
+    if (!_isFunction['default'](config.init)) {
+      return false;
+    } else if (!_isFunction['default'](config.update)) {
+      return false;
+    } else if (!_isFunction['default'](config.view)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+});
 define('frampton-app/utils/request_frame', ['exports', 'module', 'frampton-utils/is_function'], function (exports, module, _framptonUtilsIs_function) {
   'use strict';
 
@@ -155,6 +176,25 @@ define('frampton-app/utils/request_frame', ['exports', 'module', 'frampton-utils
       setTimeout(callback, 1000 / 60);
     }
   };
+});
+define('frampton-app/utils/with_valid_config', ['exports', 'module', 'frampton-app/utils/is_valid_config'], function (exports, module, _framptonAppUtilsIs_valid_config) {
+  'use strict';
+
+  module.exports = with_valid_config;
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+  var _isValidConfig = _interopRequireDefault(_framptonAppUtilsIs_valid_config);
+
+  function with_valid_config(fn) {
+    return function (config) {
+      if (_isValidConfig['default'](config)) {
+        return fn(config);
+      } else {
+        throw new Error('App config is invalid');
+      }
+    };
+  }
 });
 require("frampton-app");
 
