@@ -13,66 +13,78 @@ var global = this;
   require = Frampton.__loader.require;
 
 }());
-define('frampton-app', ['exports', 'frampton/namespace', 'frampton-app/app', 'frampton-app/scene'], function (exports, _framptonNamespace, _framptonAppApp, _framptonAppScene) {
+define('frampton-app', ['frampton/namespace', 'frampton-app/app', 'frampton-app/scene'], function (_namespace, _app, _scene) {
   'use strict';
 
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  var _namespace2 = _interopRequireDefault(_namespace);
 
-  var _Frampton = _interopRequireDefault(_framptonNamespace);
+  var _app2 = _interopRequireDefault(_app);
 
-  var _app = _interopRequireDefault(_framptonAppApp);
+  var _scene2 = _interopRequireDefault(_scene);
 
-  var _scene = _interopRequireDefault(_framptonAppScene);
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
 
   /**
    * @name App
    * @namespace
    * @memberof Frampton
    */
-  _Frampton['default'].App = {};
-  _Frampton['default'].App.VERSION = '0.0.1';
-  _Frampton['default'].App.app = _app['default'];
-  _Frampton['default'].App.scene = _scene['default'];
+  _namespace2.default.App = {};
+  _namespace2.default.App.VERSION = '0.0.3';
+  _namespace2.default.App.app = _app2.default;
+  _namespace2.default.App.scene = _scene2.default;
 });
-define('frampton-app/app', ['exports', 'module', 'frampton-list/prepend', 'frampton-list/first', 'frampton-list/second', 'frampton-data/task/execute', 'frampton-signal/create', 'frampton-app/scene', 'frampton-app/utils/with_valid_config'], function (exports, module, _framptonListPrepend, _framptonListFirst, _framptonListSecond, _framptonDataTaskExecute, _framptonSignalCreate, _framptonAppScene, _framptonAppUtilsWith_valid_config) {
+define('frampton-app/app', ['exports', 'frampton-list/prepend', 'frampton-list/first', 'frampton-list/second', 'frampton-data/task/execute', 'frampton-signal/create', 'frampton-app/scene', 'frampton-app/utils/with_valid_config'], function (exports, _prepend, _first, _second, _execute, _create, _scene, _with_valid_config) {
   'use strict';
 
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
 
-  var _prepend = _interopRequireDefault(_framptonListPrepend);
+  var _prepend2 = _interopRequireDefault(_prepend);
 
-  var _first = _interopRequireDefault(_framptonListFirst);
+  var _first2 = _interopRequireDefault(_first);
 
-  var _second = _interopRequireDefault(_framptonListSecond);
+  var _second2 = _interopRequireDefault(_second);
 
-  var _execute = _interopRequireDefault(_framptonDataTaskExecute);
+  var _execute2 = _interopRequireDefault(_execute);
 
-  var _create = _interopRequireDefault(_framptonSignalCreate);
+  var _create2 = _interopRequireDefault(_create);
 
-  var _scene = _interopRequireDefault(_framptonAppScene);
+  var _scene2 = _interopRequireDefault(_scene);
 
-  var _withValidConfig = _interopRequireDefault(_framptonAppUtilsWith_valid_config);
+  var _with_valid_config2 = _interopRequireDefault(_with_valid_config);
 
-  module.exports = _withValidConfig['default'](function app(config) {
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
+
+  exports.default = (0, _with_valid_config2.default)(function app(config) {
 
     function update(acc, next) {
       var model = acc[0];
       return config.update(next, model);
     }
 
-    var messages = _create['default']();
+    var messages = (0, _create2.default)();
     var initialState = config.init();
-    var inputs = _framptonSignalCreate.mergeMany(_prepend['default'](config.inputs, messages));
+    var inputs = (0, _create.mergeMany)((0, _prepend2.default)(config.inputs, messages));
     var stateAndTasks = inputs.fold(update, initialState);
-    var state = stateAndTasks.map(_first['default']);
-    var tasks = stateAndTasks.map(_second['default']);
+    var state = stateAndTasks.map(_first2.default);
+    var tasks = stateAndTasks.map(_second2.default);
 
     // Run tasks and publish any resulting actions back into messages
-    _execute['default'](tasks, messages);
+    (0, _execute2.default)(tasks, messages);
 
     if (config.rootElement && config.view) {
       (function () {
-        var schedule = _scene['default'](config.rootElement, messages);
+        var schedule = (0, _scene2.default)(config.rootElement, messages);
         var html = state.map(config.view);
         html.value(function (tree) {
           schedule(tree);
@@ -83,16 +95,23 @@ define('frampton-app/app', ['exports', 'module', 'frampton-list/prepend', 'framp
     return state;
   });
 });
-define('frampton-app/scene', ['exports', 'module', 'frampton-app/utils/request_frame', 'frampton-dom/update'], function (exports, module, _framptonAppUtilsRequest_frame, _framptonDomUpdate) {
+define('frampton-app/scene', ['exports', 'frampton-app/utils/request_frame', 'frampton-dom/update'], function (exports, _request_frame, _update) {
   'use strict';
 
-  module.exports = scene;
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = scene;
 
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  var _request_frame2 = _interopRequireDefault(_request_frame);
 
-  var _requestFrame = _interopRequireDefault(_framptonAppUtilsRequest_frame);
+  var _update2 = _interopRequireDefault(_update);
 
-  var _update = _interopRequireDefault(_framptonDomUpdate);
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
 
   var STATES = {
     NOTHING: 0,
@@ -111,7 +130,6 @@ define('frampton-app/scene', ['exports', 'module', 'frampton-app/utils/request_f
    * @param {Element}
    * @returns {Function} A function to schedule updates
    */
-
   function scene(rootNode, messages) {
 
     var savedDOM = null;
@@ -119,7 +137,7 @@ define('frampton-app/scene', ['exports', 'module', 'frampton-app/utils/request_f
     var state = STATES.NOTHING;
 
     function draw() {
-      _update['default'](rootNode, savedDOM, scheduledDOM, messages);
+      (0, _update2.default)(rootNode, savedDOM, scheduledDOM, messages);
       savedDOM = scheduledDOM;
       state = STATES.NOTHING;
     }
@@ -130,7 +148,7 @@ define('frampton-app/scene', ['exports', 'module', 'frampton-app/utils/request_f
       switch (state) {
 
         case STATES.NOTHING:
-          _requestFrame['default'](draw);
+          (0, _request_frame2.default)(draw);
           state = STATES.PENDING;
           break;
 
@@ -141,54 +159,76 @@ define('frampton-app/scene', ['exports', 'module', 'frampton-app/utils/request_f
     };
   }
 });
-define('frampton-app/utils/is_valid_config', ['exports', 'module', 'frampton-utils/is_function'], function (exports, module, _framptonUtilsIs_function) {
+define('frampton-app/utils/is_valid_config', ['exports', 'frampton-utils/is_function'], function (exports, _is_function) {
   'use strict';
 
-  module.exports = is_valid_config;
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = is_valid_config;
 
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  var _is_function2 = _interopRequireDefault(_is_function);
 
-  var _isFunction = _interopRequireDefault(_framptonUtilsIs_function);
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
 
   function is_valid_config(config) {
-    if (!_isFunction['default'](config.init)) {
+    if (!(0, _is_function2.default)(config.init)) {
       return false;
-    } else if (!_isFunction['default'](config.update)) {
+    } else if (!(0, _is_function2.default)(config.update)) {
       return false;
-    } else if (!_isFunction['default'](config.view)) {
+    } else if (!(0, _is_function2.default)(config.view)) {
       return false;
     } else {
       return true;
     }
   }
 });
-define('frampton-app/utils/request_frame', ['exports', 'module', 'frampton-utils/is_function'], function (exports, module, _framptonUtilsIs_function) {
+define('frampton-app/utils/request_frame', ['exports', 'frampton-utils/is_function'], function (exports, _is_function) {
   'use strict';
 
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
 
-  var _isFunction = _interopRequireDefault(_framptonUtilsIs_function);
-
-  module.exports = function (callback) {
-    if (_isFunction['default'](window.requestAnimationFrame)) {
+  exports.default = function (callback) {
+    if ((0, _is_function2.default)(window.requestAnimationFrame)) {
       window.requestAnimationFrame(callback);
     } else {
       setTimeout(callback, 1000 / 60);
     }
   };
+
+  var _is_function2 = _interopRequireDefault(_is_function);
+
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
 });
-define('frampton-app/utils/with_valid_config', ['exports', 'module', 'frampton-app/utils/is_valid_config'], function (exports, module, _framptonAppUtilsIs_valid_config) {
+define('frampton-app/utils/with_valid_config', ['exports', 'frampton-app/utils/is_valid_config'], function (exports, _is_valid_config) {
   'use strict';
 
-  module.exports = with_valid_config;
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = with_valid_config;
 
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  var _is_valid_config2 = _interopRequireDefault(_is_valid_config);
 
-  var _isValidConfig = _interopRequireDefault(_framptonAppUtilsIs_valid_config);
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
 
   function with_valid_config(fn) {
     return function (config) {
-      if (_isValidConfig['default'](config)) {
+      if ((0, _is_valid_config2.default)(config)) {
         return fn(config);
       } else {
         throw new Error('App config is invalid');
@@ -197,5 +237,4 @@ define('frampton-app/utils/with_valid_config', ['exports', 'module', 'frampton-a
   }
 });
 require("frampton-app");
-
 })();

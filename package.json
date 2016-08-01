@@ -1,14 +1,16 @@
 {
   "name": "frampton-app",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A module for wiring apps with frampton.js",
   "scripts": {
     "test": "frampton test",
     "build": "frampton build",
-    "docs": "rm -rfv docs/* && jsdoc dist/frampton-app.js -d docs --readme README.md  --private"
+    "clean-install": "rm -rfv node_modules; npm install;",
+    "deploy": "git push -u origin master; npm publish ./",
+    "docs": "rm -rfv docs/* && jsdoc packages/**/src/*.js -d docs --readme README.md  --private"
   },
   "author": "Kevin Greene <hightimesteddy@gmail.com>",
-  "license": "MIT",
+  "license": "BSD",
   "repository": {
     "type": "git",
     "url": "git@github.com:framptonjs/frampton-app.git"
@@ -18,7 +20,10 @@
   },
   "homepage": "https://github.com/framptonjs/frampton-app",
   "devDependencies": {
-    "frampton-build": "0.0.5",
-    "frampton-cli": "0.0.4"
+    "frampton": "0.1.8",
+    "frampton-dom": "0.0.7",
+    "frampton-build": "0.0.6",
+    "frampton-cli": "0.0.6",
+    "jsdoc": "3.4.0"
   }
 }
