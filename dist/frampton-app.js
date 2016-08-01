@@ -13,12 +13,12 @@ var global = this;
   require = Frampton.__loader.require;
 
 }());
-define('frampton-app', ['frampton/namespace', 'frampton-app/app', 'frampton-app/scene'], function (_namespace, _app, _scene) {
+define('frampton-app', ['frampton/namespace', 'frampton-app/basic', 'frampton-app/scene'], function (_namespace, _basic, _scene) {
   'use strict';
 
   var _namespace2 = _interopRequireDefault(_namespace);
 
-  var _app2 = _interopRequireDefault(_app);
+  var _basic2 = _interopRequireDefault(_basic);
 
   var _scene2 = _interopRequireDefault(_scene);
 
@@ -34,11 +34,11 @@ define('frampton-app', ['frampton/namespace', 'frampton-app/app', 'frampton-app/
    * @memberof Frampton
    */
   _namespace2.default.App = {};
-  _namespace2.default.App.VERSION = '0.0.3';
-  _namespace2.default.App.app = _app2.default;
+  _namespace2.default.App.VERSION = '0.0.4';
+  _namespace2.default.App.basic = _basic2.default;
   _namespace2.default.App.scene = _scene2.default;
 });
-define('frampton-app/app', ['exports', 'frampton-list/prepend', 'frampton-list/first', 'frampton-list/second', 'frampton-data/task/execute', 'frampton-signal/create', 'frampton-app/scene', 'frampton-app/utils/with_valid_config'], function (exports, _prepend, _first, _second, _execute, _create, _scene, _with_valid_config) {
+define('frampton-app/basic', ['exports', 'frampton-list/prepend', 'frampton-list/first', 'frampton-list/second', 'frampton-data/task/execute', 'frampton-signal/create', 'frampton-app/scene', 'frampton-app/utils/with_valid_config'], function (exports, _prepend, _first, _second, _execute, _create, _scene, _with_valid_config) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -65,7 +65,7 @@ define('frampton-app/app', ['exports', 'frampton-list/prepend', 'frampton-list/f
     };
   }
 
-  exports.default = (0, _with_valid_config2.default)(function app(config) {
+  exports.default = (0, _with_valid_config2.default)(function basic_app(config) {
 
     function update(acc, next) {
       var model = acc[0];
@@ -74,18 +74,21 @@ define('frampton-app/app', ['exports', 'frampton-list/prepend', 'frampton-list/f
 
     var messages = (0, _create2.default)();
     var initialState = config.init();
-    var inputs = (0, _create.mergeMany)((0, _prepend2.default)(config.inputs, messages));
-    var stateAndTasks = inputs.fold(update, initialState);
+    var inputs = config.inputs || [];
+    var allInputs = (0, _create.mergeMany)((0, _prepend2.default)(inputs, messages));
+    var stateAndTasks = allInputs.fold(update, initialState);
     var state = stateAndTasks.map(_first2.default);
     var tasks = stateAndTasks.map(_second2.default);
 
     // Run tasks and publish any resulting actions back into messages
-    (0, _execute2.default)(tasks, messages);
+    (0, _execute2.default)(tasks, messages.push);
 
     if (config.rootElement && config.view) {
       (function () {
         var schedule = (0, _scene2.default)(config.rootElement, messages);
-        var html = state.map(config.view);
+        var html = state.map(function (next) {
+          return config.view(messages, next);
+        });
         html.value(function (tree) {
           schedule(tree);
         });

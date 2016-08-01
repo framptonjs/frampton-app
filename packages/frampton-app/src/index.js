@@ -1,5 +1,5 @@
 import Frampton from 'frampton/namespace';
-import app from 'frampton-app/app';
+import basic from 'frampton-app/basic';
 import scene from 'frampton-app/scene';
 
 /**
@@ -8,6 +8,6 @@ import scene from 'frampton-app/scene';
  * @memberof Frampton
  */
 Frampton.App         = {};
-Frampton.App.VERSION = '0.0.3';
-Frampton.App.app     = app;
+Frampton.App.VERSION = '0.0.4';
+Frampton.App.basic   = basic;
 Frampton.App.scene   = scene;
