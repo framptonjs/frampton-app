@@ -4,17 +4,19 @@ import second from 'frampton-list/second';
 import execute from 'frampton-data/task/execute';
 import createSignal from 'frampton-signal/create';
 import { mergeMany } from 'frampton-signal/create';
-import basicConfig from 'frampton-app/utils/basic_config';
+import scene from 'frampton-dom/scene';
+import withViewConfig from 'frampton-app/utils/with_view_config';
 import withValidConfig from 'frampton-app/utils/with_valid_config';
 
 /**
  * {
  *   update : Function,
+ *   view : Function,
  *   init : Function,
  *   inputs : []
  * }
  */
-export default withValidConfig(basicConfig, function basic_app(config) {
+export default withValidConfig(withViewConfig, function with_view_app(config) {
 
   function update(acc, next) {
     const model = acc[0];
@@ -28,6 +30,15 @@ export default withValidConfig(basicConfig, function basic_app(config) {
   const stateAndTasks = allInputs.fold(update, initialState);
   const state = stateAndTasks.map(first);
   const tasks = stateAndTasks.map(second);
+
+  const schedule = scene(config.rootElement);
+  const html = state.map((next) => {
+    return config.view(messages, next);
+  });
+
+  html.value((tree) => {
+    schedule(tree);
+  });
 
   // Run tasks and publish any resulting actions back into messages
   execute(tasks, messages.push);

@@ -11,22 +11,71 @@ This is essentially a pure JavaScript implementation of Elm's StartApp.
 
 ```
 npm install --save frampton
+npm install --save frampton-dom
 npm install --save frampton-app
 ```
 
 ## Include
 
 ```
-<script src="frampton.js"></script>
-<script src="frampton-app.js"></script>
+<script src="./node_modules/frampton/dist/frampton.js"></script>
+<script src="./node_modules/frampton-dom/dist/frampton-dom.js"></script>
+<script src="./node_modules/frampton-app/dist/frampton-app.js"></script>
 ```
 
-## Usage
+## BasicApp
 
-
+A basic app updates a state based on a list of inputs
 
 ```
 const BasicApp = Frampton.App.basic;
+const Never = Frampton.Data.Task.never;
+const Signal = Frampton.Signal.create;
+
+const inputs = Signal();
+
+// Get the initial app state and initial tasks to run
+function init() {
+  const initialState = { name : 'Larry' };
+  const initialTask = Never();
+  return [initialState, initialTask];
+}
+
+// Update state based on messages
+function update(msg, state) {
+  switch(msg) {
+    case 'input happened':
+      const newState = { name : 'Bob' };
+      return [newState, Never()];
+
+    default:
+      return [state, Never()];
+  }
+}
+
+// Create app
+// Inputs is an array of Signal objects used to introduce events to the system.
+const app = BasicApp({
+  init : init,
+  update : update,
+  inputs : [inputs]
+});
+
+// The return value is a Signal of the current app state
+app.value((currentState) => {
+  console.log('The current app state: ', currentState);
+});
+
+inputs.push('input happened');
+
+```
+
+## WithViewApp
+
+An app with a view take two additional parameters, a function to render a view and a DOM node to attach the view to.
+
+```
+const WithViewApp = Frampton.App.withView;
 const Never = Frampton.Data.Task.never;
 const { div, text } = Frampton.Frampton.DOM.Html;
 
@@ -61,7 +110,7 @@ function view(messages, state) {
 }
 
 // Create app
-const app = BasicApp({
+const app = WithViewApp({
   init : init,
   update : update,
   view : view,
