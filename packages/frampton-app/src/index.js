@@ -8,6 +8,6 @@ import scene from 'frampton-app/scene';
  * @memberof Frampton
  */
 Frampton.App         = {};
-Frampton.App.VERSION = '0.0.4';
+Frampton.App.VERSION = '{-- VERSION_PLACEHOLDER --}';
 Frampton.App.basic   = basic;
 Frampton.App.scene   = scene;

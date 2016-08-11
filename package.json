@@ -6,7 +6,9 @@
     "test": "frampton test",
     "build": "frampton build",
     "clean-install": "rm -rfv node_modules; npm install;",
-    "deploy": "git push -u origin master; npm publish ./",
+    "release": "frampton release --patch",
+    "minor-release": "frampton release --minor",
+    "major-release": "frampton release --major",
     "docs": "rm -rfv docs/* && jsdoc packages/**/src/*.js -d docs --readme README.md  --private"
   },
   "author": "Kevin Greene <hightimesteddy@gmail.com>",
@@ -20,10 +22,10 @@
   },
   "homepage": "https://github.com/framptonjs/frampton-app",
   "devDependencies": {
-    "frampton": "0.1.9",
+    "frampton": "0.2.0",
     "frampton-dom": "0.0.7",
     "frampton-build": "0.0.6",
-    "frampton-cli": "0.0.6",
+    "frampton-cli": "0.0.9",
     "jsdoc": "3.4.0"
   }
 }
