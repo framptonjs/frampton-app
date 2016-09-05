@@ -33,7 +33,7 @@ export default withValidConfig(withViewConfig, function with_view_app(config) {
 
   const schedule = scene(config.rootElement);
   const html = state.map((next) => {
-    return config.view(messages, next);
+    return config.view(messages.push, next);
   });
 
   html.value((tree) => {

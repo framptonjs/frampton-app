@@ -271,7 +271,7 @@ define('frampton-app/with_view', ['exports', 'frampton-list/prepend', 'frampton-
 
     var schedule = (0, _scene2.default)(config.rootElement);
     var html = state.map(function (next) {
-      return config.view(messages, next);
+      return config.view(messages.push, next);
     });
 
     html.value(function (tree) {
