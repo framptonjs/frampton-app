@@ -271,11 +271,11 @@ define('frampton-app/with_view', ['exports', 'frampton-list/prepend', 'frampton-
 
     var schedule = (0, _scene2.default)(config.rootElement);
     var html = state.map(function (next) {
-      return config.view(messages.push, next);
+      return config.view(next);
     });
 
     html.value(function (tree) {
-      schedule(tree);
+      schedule(tree, messages.push);
     });
 
     // Run tasks and publish any resulting actions back into messages

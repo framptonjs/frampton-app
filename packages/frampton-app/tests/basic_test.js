@@ -4,14 +4,20 @@ import Never from 'frampton-data/task/never';
 
 QUnit.module('Frampton.App.basic');
 
-QUnit.test('Should create a functioning app', function(assert) {
+function initState(count) {
+  return {
+    count : count
+  };
+}
 
+QUnit.test('Should create a functioning app', function(assert) {
+  assert.expect(3);
   const done = assert.async();
   const inputs = createSignal();
   var count = 0;
 
   function init() {
-    return [{ count : 0 }, Never()];
+    return [initState(0), Never()];
   }
 
   function update(msg, state) {
@@ -21,7 +27,7 @@ QUnit.test('Should create a functioning app', function(assert) {
     switch(msg) {
       case 'first':
         count ++;
-        const newState = { count : (state.count + 1) };
+        const newState = initState(state.count + 1);
         return [newState, Never()];
 
       default:

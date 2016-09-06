@@ -33,11 +33,11 @@ export default withValidConfig(withViewConfig, function with_view_app(config) {
 
   const schedule = scene(config.rootElement);
   const html = state.map((next) => {
-    return config.view(messages.push, next);
+    return config.view(next);
   });
 
   html.value((tree) => {
-    schedule(tree);
+    schedule(tree, messages.push);
   });
 
   // Run tasks and publish any resulting actions back into messages

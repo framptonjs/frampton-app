@@ -16,14 +16,22 @@ QUnit.module('Frampton.App.withView', {
   }
 });
 
-QUnit.test('Should create a functioning app', function(assert) {
+const clickHandler = (evt) => {
+  return 'click happened';
+};
 
+const initState = (count) => ({
+  count : count
+});
+
+QUnit.test('Should create a functioning app', function(assert) {
+  assert.expect(4);
   const done = assert.async();
   const inputs = createSignal();
   var count = 0;
 
   function init() {
-    return [{ count : 0 }, Never()];
+    return [initState(0), Never()];
   }
 
   function update(msg, state) {
@@ -33,7 +41,7 @@ QUnit.test('Should create a functioning app', function(assert) {
     switch(msg) {
       case 'first':
         count ++;
-        const newState = { count : (state.count + 1) };
+        const newState = initState(state.count + 1);
         return [newState, Never()];
 
       default:
@@ -41,16 +49,11 @@ QUnit.test('Should create a functioning app', function(assert) {
     }
   }
 
-  function view(messages, state) {
-
+  function view(state) {
     assert.equal(state.count, count);
     if (state.count > 0) { done(); }
 
-    const clickHandler = (evt) => {
-      messages('click happened');
-    };
-
-    return div( { onClick : clickHandler }, [
+    return div({ onClick : clickHandler }, [
       text('click me')
     ]);
   }
