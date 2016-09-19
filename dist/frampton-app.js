@@ -42,7 +42,7 @@ define('frampton-app', ['frampton/namespace', 'frampton-app/basic', 'frampton-ap
    * @memberof Frampton
    */
   _namespace2.default.App = {};
-  _namespace2.default.App.VERSION = '0.0.5';
+  _namespace2.default.App.VERSION = '0.0.6';
   _namespace2.default.App.basic = _basic2.default;
   _namespace2.default.App.withView = _with_view2.default;
 });
