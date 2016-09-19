@@ -99,12 +99,13 @@ function update(msg, state) {
 }
 
 // Render view based on state
-function view(messages, state) {
+// Return values of event handlers are fed to update function as messages
+function view(state) {
   const clickHandler = (evt) => {
-    messages('click happened');
+    return 'click happened';
   };
 
-  return div( { onClick : clickHandler }, [
+  return div({ onClick : clickHandler }, [
     text('click me')
   ]);
 }

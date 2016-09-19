@@ -7,12 +7,20 @@ var global = this;
 
   if (typeof Frampton === 'undefined') {
     throw new Error('Frampton is undefined');
-  };
+  }
 
   define = Frampton.__loader.define;
   require = Frampton.__loader.require;
 
+  if (typeof Frampton.DOM === 'undefined') {
+    Frampton.__loader.registry['frampton-dom/scene'] = {
+      deps : [],
+      callback : function() {}
+    };
+  }
+
 }());
+
 define('frampton-app', ['frampton/namespace', 'frampton-app/basic', 'frampton-app/with_view'], function (_namespace, _basic, _with_view) {
   'use strict';
 
@@ -256,6 +264,10 @@ define('frampton-app/with_view', ['exports', 'frampton-list/prepend', 'frampton-
 
   exports.default = (0, _with_valid_config2.default)(_with_view_config2.default, function with_view_app(config) {
 
+    if (typeof _scene2.default !== 'function') {
+      throw new Error('Frampton.App.withView requires Frampton.DOM');
+    }
+
     function update(acc, next) {
       var model = acc[0];
       return config.update(next, model);
@@ -269,13 +281,13 @@ define('frampton-app/with_view', ['exports', 'frampton-list/prepend', 'frampton-
     var state = stateAndTasks.map(_first2.default);
     var tasks = stateAndTasks.map(_second2.default);
 
-    var schedule = (0, _scene2.default)(config.rootElement);
+    var schedule = (0, _scene2.default)(config.rootElement, messages.push);
     var html = state.map(function (next) {
       return config.view(next);
     });
 
     html.value(function (tree) {
-      schedule(tree, messages.push);
+      schedule(tree);
     });
 
     // Run tasks and publish any resulting actions back into messages

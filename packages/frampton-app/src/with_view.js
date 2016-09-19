@@ -18,6 +18,10 @@ import withValidConfig from 'frampton-app/utils/with_valid_config';
  */
 export default withValidConfig(withViewConfig, function with_view_app(config) {
 
+  if (typeof scene !== 'function') {
+    throw new Error('Frampton.App.withView requires Frampton.DOM');
+  }
+
   function update(acc, next) {
     const model = acc[0];
     return config.update(next, model);
@@ -31,13 +35,13 @@ export default withValidConfig(withViewConfig, function with_view_app(config) {
   const state = stateAndTasks.map(first);
   const tasks = stateAndTasks.map(second);
 
-  const schedule = scene(config.rootElement);
+  const schedule = scene(config.rootElement, messages.push);
   const html = state.map((next) => {
     return config.view(next);
   });
 
   html.value((tree) => {
-    schedule(tree, messages.push);
+    schedule(tree);
   });
 
   // Run tasks and publish any resulting actions back into messages
