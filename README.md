@@ -1,5 +1,7 @@
 # Frampton-App
 
+[![Build Status](https://semaphoreci.com/api/v1/beatniklarry/frampton-app/branches/master/badge.svg)](https://semaphoreci.com/beatniklarry/frampton-app)
+
 A module for wiring an application with frampton.js
 
 This is essentially a pure JavaScript implementation of Elm's StartApp.
