@@ -10,7 +10,7 @@ function initState(count) {
   };
 }
 
-QUnit.test('Should create a functioning app', function(assert) {
+QUnit.test('creates a functioning app', function(assert) {
   assert.expect(3);
   const done = assert.async();
   const inputs = createSignal();

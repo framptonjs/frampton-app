@@ -3,7 +3,7 @@ import isFunction from 'frampton-utils/is_function';
 
 QUnit.module('Frampton.App.Utils.isValidConfig');
 
-QUnit.test('Should validate an object based on a set of rules', function(assert) {
+QUnit.test('validates an object based on a set of rules', function(assert) {
   const mockConfig = {
     init : function() {},
     update : function() {},
@@ -22,7 +22,7 @@ QUnit.test('Should validate an object based on a set of rules', function(assert)
   assert.equal(actual, expected);
 });
 
-QUnit.test('Should return false for an invalid config', function(assert) {
+QUnit.test('returns false for an invalid config', function(assert) {
   const mockConfig = {
     init : {},
     update : function() {},
