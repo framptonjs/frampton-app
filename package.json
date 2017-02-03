@@ -1,6 +1,7 @@
 {
   "name": "frampton-app",
   "version": "0.0.7",
+  "main": "./dist/frampton-app.js",
   "description": "A module for wiring apps with frampton.js",
   "scripts": {
     "test": "frampton test",
@@ -21,11 +22,13 @@
     "url": "https://github.com/framptonjs/frampton-app/issues"
   },
   "homepage": "https://github.com/framptonjs/frampton-app",
+  "dependencies": {
+    "frampton": "0.3.5",
+    "frampton-dom": "0.1.4"
+  },
   "devDependencies": {
-    "frampton": "0.3.1",
-    "frampton-dom": "0.1.4",
-    "frampton-build": "0.0.6",
-    "frampton-cli": "0.0.10",
+    "frampton-build": "0.0.7",
+    "frampton-cli": "0.0.12",
     "jsdoc": "3.4.0"
   }
 }

@@ -83,7 +83,7 @@ define('frampton-app/basic', ['exports', 'frampton-list/prepend', 'frampton-list
     var messages = (0, _create2.default)();
     var initialState = config.init();
     var inputs = config.inputs || [];
-    var allInputs = (0, _create.mergeMany)((0, _prepend2.default)(inputs, messages));
+    var allInputs = (0, _create.mergeMany)((0, _prepend2.default)(messages, inputs));
     var stateAndTasks = allInputs.fold(update, initialState);
     var state = stateAndTasks.map(_first2.default);
     var tasks = stateAndTasks.map(_second2.default);
@@ -276,7 +276,7 @@ define('frampton-app/with_view', ['exports', 'frampton-list/prepend', 'frampton-
     var messages = (0, _create2.default)();
     var initialState = config.init();
     var inputs = config.inputs || [];
-    var allInputs = (0, _create.mergeMany)((0, _prepend2.default)(inputs, messages));
+    var allInputs = (0, _create.mergeMany)((0, _prepend2.default)(messages, inputs));
     var stateAndTasks = allInputs.fold(update, initialState);
     var state = stateAndTasks.map(_first2.default);
     var tasks = stateAndTasks.map(_second2.default);

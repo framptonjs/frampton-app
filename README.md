@@ -79,7 +79,7 @@ An app with a view take two additional parameters, a function to render a view a
 ```
 const WithViewApp = Frampton.App.withView;
 const Never = Frampton.Data.Task.never;
-const { div, text } = Frampton.Frampton.DOM.Html;
+const { div, text } = Frampton.DOM.Html;
 
 // Get the initial app state and initial tasks to run
 function init() {

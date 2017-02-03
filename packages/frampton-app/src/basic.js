@@ -24,7 +24,7 @@ export default withValidConfig(basicConfig, function basic_app(config) {
   const messages = createSignal();
   const initialState = config.init();
   const inputs = (config.inputs || []);
-  const allInputs = mergeMany(prepend(inputs, messages));
+  const allInputs = mergeMany(prepend(messages, inputs));
   const stateAndTasks = allInputs.fold(update, initialState);
   const state = stateAndTasks.map(first);
   const tasks = stateAndTasks.map(second);
