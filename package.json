@@ -1,6 +1,6 @@
 {
   "name": "frampton-app",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "./dist/frampton-app.js",
   "description": "A module for wiring apps with frampton.js",
   "scripts": {
